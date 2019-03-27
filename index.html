@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WeatherBox - Beta</title>
+</head>
+<body>
+    <div class="container">
+        <div class="main-text">
+
+        </div>
+    </div>
+</body>
+<script>
+
+  let url = 'https://api.darksky.net/forecast/615c985b8a04b23cedb60c4832bae5d1/26.1427,91.6597';
+  let jsonData = [];
+
+  fetch('https://cors-anywhere.herokuapp.com/'+ url)
+  .then(response => {
+    return response.json()
+  })
+  .then(data => {
+    console.log(data);
+    
+    doStuff(data);
+  })
+  .catch(err => {
+    console.log(err)
+  });
+  
+  const mainDiv = document.querySelector('.main-text')
+
+  function doStuff(jsonData){
+    mainDiv.textContent = jsonData.hourly.summary;
+  }
+</script>
+</html>
