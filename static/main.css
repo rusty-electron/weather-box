@@ -3,22 +3,29 @@ html,body{
     padding: 0;
     margin: 0;
     font-family: 'Montserrat'; 
-    
+}
+
+a{
+    text-decoration: none;
+    color: rgb(112, 134, 133);
 }
 
 /* container styling */
 .container{
-    margin: 2rem;
+    margin: 1rem;
 }
 
 /* header styling */
 header{
     text-align: center;
+    background-color: #253237;
+    color: #fff;
+    padding: 2rem;
 }
 
 .top .title{
     font-size: 2rem;
-    margin: 1rem;
+    padding: 1rem;
 }
 
 .loc span{
@@ -90,6 +97,19 @@ header{
 .da-sum-h{
     font-weight: 600;
     padding-bottom: .5rem;
+}
+
+/* footer styling */
+footer{
+    background-color: #253237;
+    text-align: center;
+    color: #fff;
+    padding: 2rem;
+    line-height: 1.5rem;
+}
+
+.credit{
+    color:rgb(136, 142, 148);
 }
 
 /* responsive styling */
