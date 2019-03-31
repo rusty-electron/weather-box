@@ -42,7 +42,13 @@
                 </div>
               </div>
         </div>
+
+        <div><a href="">See Hourly Information (Coming Soon)</a></div>
           
+        <div class="da-sum">
+            <div class="da-sum-h">Daily Summary</div>
+            <div class="da-sum-t"></div>
+        </div>
 
         </div>
 
@@ -76,16 +82,19 @@
   const uvSpan = document.querySelector('.uv > span')
   const windSpan = document.querySelector('.wind > span')
   const humidSpan = document.querySelector('.humid > span')
-  const hrSum = document.querySelector('.graphic > div')
+  const hrShort = document.querySelector('.graphic > div')
+  const daSum = document.querySelector('.da-sum-t');
 
   function doStuff(jsonData){
     mainDiv.textContent = jsonData.hourly.summary;
-    tempSpan.textContent = tempConvert(jsonData.currently.temperature) + " C";
+    tempSpan.textContent = tempConvert(jsonData.currently.temperature) + " °C";
     uvSpan.textContent = jsonData.currently.uvIndex;
     humidSpan.textContent = jsonData.currently.humidity;
     windSpan.textContent = windConvert(jsonData.currently.windSpeed) + " kmph";
-    hrSum.textContent = jsonData.currently.summary;
-    changeImage()
+    hrShort.textContent = jsonData.currently.summary;
+    changeImage(jsonData.currently.icon);
+
+    daSum.textContent = replaceFahrenheit(jsonData.daily.summary);
   }
 
   function tempConvert(data){
@@ -93,18 +102,31 @@
   }
 
   function changeImage(data){
-    if (data == "rain"){
-      document.querySelector('.graphic > img').src = "static/images/icons8-rain-80.png";
+    let fileUrl;
+    switch(data){
+      case "rain":
+        fileUrl = "/static/images/icons8-rain-80.png";
+        break;
     }
+    document.querySelector('.graphic > img').src = fileUrl;
   }
 
   function windConvert(data){
-    return +(data * 18/5).toFixed(2);
+    return +(data * 1.609).toFixed(2);
   }
 
   function setLocation(loc){
     lat.textContent = loc[0] +',';
     long.textContent = loc[1];
+  }
+
+  function replaceFahrenheit(data){
+    let reg = /\b\d*\.?\d+\°F\b/;
+    let found = reg.exec(data);
+    let valueString = /\d*/.exec(found[0]);
+    
+    data = data.replace(valueString[0], Math.round(tempConvert(valueString[0])));
+    return data.replace("°F","°C");
   }
 </script>
 </html>

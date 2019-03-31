@@ -78,3 +78,33 @@ header{
     padding: .5rem;
 }
 
+/* da-sum */
+
+.da-sum{
+    border: 1px solid rgb(180, 176, 176);
+    margin: 1rem;
+    padding: 1.5rem;
+    border-radius: 4px;
+}
+
+.da-sum-h{
+    font-weight: 600;
+    padding-bottom: .5rem;
+}
+
+/* responsive styling */
+
+.container{
+    margin: 1rem;
+    margin-top: 2rem;
+}
+
+.graphic{
+    order: -1;
+    margin-bottom: 10px;
+}
+
+.current{
+    display: flex;
+    flex-direction: column;
+}
