@@ -4,19 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="static/main.css">
     <title>WeatherBox - Beta</title>
 </head>
 <body>
     <div class="container">
-        <div class="main-text">
+        <header>
+          <div class="top">
+            <div class="title">Weather-Box</div>
+            <div class="loc">Currently Showing: <span class="lat"></span> <span class="long"></span></div>
+          </div>
+        </header>
+
+        <div class="main">
+          <div class="hr-sum">
+            <div class="hr-sum-h">Hourly Summary</div>
+            <div class="hr-sum-t"></div>
+          </div>
+
+        <div class="current-box">
+            <div class="title">
+              Current Weather
+            </div>
+            <div class="current">
+
+                <div class="data">
+                  <div class="temp">Temperature: <span></span></div>
+                  <div class="wind">Wind Speed: <span></span></div>
+                  <div class="humid">Humidity: <span></span></div>
+                  <div class="uv">UV Index: <span></span></div>
+                </div>
+    
+                <div class="graphic">
+                  <img src="static/images/icons8-rain-80.png" alt="">
+                  <div></div>
+                </div>
+              </div>
+        </div>
+          
 
         </div>
+
     </div>
 </body>
 <script>
+  let loc = ["26.1427", "91.6597"];
 
-  let url = 'https://api.darksky.net/forecast/615c985b8a04b23cedb60c4832bae5d1/26.1427,91.6597';
+  let url = 'https://api.darksky.net/forecast/615c985b8a04b23cedb60c4832bae5d1/' + loc[0]+ ','+ loc[1];
   let jsonData = [];
+
+  const lat = document.querySelector('.lat');
+  const long = document.querySelector('.long');
 
   fetch('https://cors-anywhere.herokuapp.com/'+ url)
   .then(response => {
@@ -25,16 +64,47 @@
   .then(data => {
     console.log(data);
     
-    doStuff(data);
+    setLocation(loc)
+    doStuff(data)
   })
   .catch(err => {
     console.log(err)
   });
   
-  const mainDiv = document.querySelector('.main-text')
+  const mainDiv = document.querySelector('div.hr-sum-t')
+  const tempSpan = document.querySelector('.temp > span')
+  const uvSpan = document.querySelector('.uv > span')
+  const windSpan = document.querySelector('.wind > span')
+  const humidSpan = document.querySelector('.humid > span')
+  const hrSum = document.querySelector('.graphic > div')
 
   function doStuff(jsonData){
     mainDiv.textContent = jsonData.hourly.summary;
+    tempSpan.textContent = tempConvert(jsonData.currently.temperature) + " C";
+    uvSpan.textContent = jsonData.currently.uvIndex;
+    humidSpan.textContent = jsonData.currently.humidity;
+    windSpan.textContent = windConvert(jsonData.currently.windSpeed) + " kmph";
+    hrSum.textContent = jsonData.currently.summary;
+    changeImage()
+  }
+
+  function tempConvert(data){
+    return +(5*(data-32)/9).toFixed(2);
+  }
+
+  function changeImage(data){
+    if (data == "rain"){
+      document.querySelector('.graphic > img').src = "static/images/icons8-rain-80.png";
+    }
+  }
+
+  function windConvert(data){
+    return +(data * 18/5).toFixed(2);
+  }
+
+  function setLocation(loc){
+    lat.textContent = loc[0] +',';
+    long.textContent = loc[1];
   }
 </script>
 </html>
