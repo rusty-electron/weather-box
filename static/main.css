@@ -85,6 +85,13 @@ header{
     padding: .5rem;
 }
 
+/* hr-forecast styling */
+
+.hr-forecast-title{
+    font-weight: 600;
+    margin-bottom: .5rem;
+}
+
 /* da-sum */
 
 .da-sum{
