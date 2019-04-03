@@ -3,12 +3,12 @@ let loc = ["26.1427", "91.6597"];
 let url = 'https://api.darksky.net/forecast/615c985b8a04b23cedb60c4832bae5d1/' + loc[0]+ ','+ loc[1];
 let jsonData = [];
 
-let start;
-let end;
-
-
 const lat = document.querySelector('.lat');
 const long = document.querySelector('.long');
+
+const left = document.querySelector('.left');
+const right = document.querySelector('.right');
+const showHour = document.querySelector('.see-hr');
 
 let index = 0;
 
@@ -19,13 +19,38 @@ fetch('https://cors-anywhere.herokuapp.com/'+ url)
     .then(data => {
         console.log(data);
 
-        setLocation(loc)
-        doStuff(data)
+        setLocation(loc);
+        doStuff(data);
         
-        //Load Hourly Forecast Data
-        loadHourForecast(index, data);
+        let range = gethourRange(data.hourly.data);
+        index = range[0];
+        
+        showHour.addEventListener("click", function(){
+            
+            let box = document.querySelector('.hr-stack')
+            
+            if (box.style.display == "block"){
+                showHour.textContent = "See Hourly Information";
+                box.style.display = "none";
+            }else{
+                showHour.textContent = "Hide Hourly Information";
+                box.style.display = "block";
+            }
 
-        gethourRange(data.hourly.data);
+            //Load Hourly Forecast Data
+            loadHourForecast(index, data, range);
+        });
+
+        left.addEventListener("click", function(){
+            index--;
+            loadHourForecast(index, data, range);
+        })
+
+        right.addEventListener("click", function(){
+            index++;
+            loadHourForecast(index, data, range);
+        })
+
     })
     .catch(err => {
         console.log(err)
@@ -50,9 +75,6 @@ function doStuff(jsonData){
     changeImage(jsonData.currently.icon, wthrImg);
 
     daSum.textContent = replaceFahrenheit(jsonData.daily.summary);
-
-    console.log(new Date(jsonData.hourly.data[48].time * 1000));
-    
 }
 
 function tempConvert(data){
@@ -74,6 +96,22 @@ function changeImage(data, item){
         fileUrl = "/static/images/icons8-fog-64.png";
         break;
 
+        case "clear-day":
+        fileUrl = "/static/images/icons8-bright-sunny-day-80.png";
+        break;
+
+        case "clear-night":
+        fileUrl = "/static/images/icons8-moon-and-stars-512.png";
+        break;
+        
+        case "partly-cloudy-night":
+        fileUrl = "/static/images/icons8-night-64.png";
+        break;
+        
+        case "partly-cloudy-day":
+        fileUrl = "/static/images/icons8-partly-cloudy-day-64.png";
+        break;
+
         default:
         fileUrl = "/static/images/icons8-thermometer-80.png";
         break;
@@ -82,7 +120,7 @@ function changeImage(data, item){
 }
 
 function windConvert(data){
-    return +(data * 1.609).toFixed(2);
+    return Math.round((data * 1.609));
 }
 
 function setLocation(loc){
@@ -99,7 +137,7 @@ function replaceFahrenheit(data){
     return data.replace("°F","°C");
 }
 
-function loadHourForecast(i, jsonData){
+function loadHourForecast(i, jsonData, range){
 
     const tempSpan = document.querySelector('.hr-f-data > .temp > span')
     const uvSpan = document.querySelector('.hr-f-data > .uv > span')
@@ -107,16 +145,32 @@ function loadHourForecast(i, jsonData){
     const humidSpan = document.querySelector('.hr-f-data > .humid > span')
     const hrShort = document.querySelector('.hr-f-g > div')
     const wthrImg = document.querySelector('.hr-f-g > img');
+    const timeBox = document.querySelector('.hr-forecast-time > span')
+    let thisTime = new Date(jsonData.hourly.data[i].time * 1000);
 
+    timeBox.textContent = thisTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     tempSpan.textContent = tempConvert(jsonData.hourly.data[i].temperature) + " °C";
     uvSpan.textContent = jsonData.hourly.data[i].uvIndex;
     humidSpan.textContent = jsonData.hourly.data[i].humidity;
     windSpan.textContent = windConvert(jsonData.hourly.data[i].windSpeed) + " kmph";
     hrShort.textContent = jsonData.hourly.data[i].summary;
     changeImage(jsonData.hourly.data[i].icon, wthrImg);
+
+    if (i === range[0]){
+        left.style.zIndex = -1;
+        left.style.opacity = 0;
+    }else if (i === range[1]){
+        right.style.zIndex = -1;
+        right.style.opacity = 0
+    }else{
+        right.style.zIndex = 0;
+        right.style.opacity = 1;
+        left.style.zIndex = 0;
+        left.style.opacity = 1;
+    }
 }
 
-function gethourRange(data, start, end){
+function gethourRange(data){
     
     let later = new Date();
     later.setHours(later.getHours() + 12);
@@ -134,7 +188,6 @@ function gethourRange(data, start, end){
             break;
         }
     }
-
-    console.log(new Date(data[start].time * 1000))
-    console.log(new Date(data[end].time * 1000))
+    return [start, end]
 }
+

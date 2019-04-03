@@ -87,9 +87,60 @@ header{
 
 /* hr-forecast styling */
 
+.see-hr{
+    border: 1px solid #a0acb1;
+    border-radius: 4px;
+    padding: .8rem;
+    cursor: pointer;
+}
+
+.see-hr:hover{
+    background: #ced2d4;
+    color: #fff;
+}
+
 .hr-forecast-title{
     font-weight: 600;
     margin-bottom: .5rem;
+}
+
+.hr-stack{
+    padding-bottom: 0.3rem;
+    display: none;
+}
+
+.arrow-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
+}
+
+.arrow-box > div > img{
+    width: 30px;
+    display: block;
+    margin: auto auto;
+}
+
+.arrow-box > div{
+    margin: .5rem;
+    padding: .7rem;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.arrow-box div:hover{
+    border: 1px solid #8b8f91;
+
+}
+
+.hr-forecast-time{
+    border: 1px solid #8f9496;
+    border-radius: 4px;
+    width: 160px;
+    padding: .4rem;
+    margin: .5rem auto;
 }
 
 /* da-sum */
