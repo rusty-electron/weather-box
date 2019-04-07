@@ -1,5 +1,11 @@
 let loc = ["26.1427", "91.6597"];
 
+let clearBtn = document.querySelector('.search > img');
+clearBtn.addEventListener('click', function(){
+    searchInput.value = '';
+})
+
+
 let ipurl = 'http://ipinfo.io/json';
 fetch('https://cors-anywhere.herokuapp.com/'+ ipurl)
     .then(response => {

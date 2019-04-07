@@ -1,5 +1,6 @@
+let searchInput = document.querySelector('.searchbox');
+
 function activateSearch(){
-    let searchInput = document.querySelector('.searchbox');
     let autocomplete = new google.maps.places.Autocomplete(searchInput);
 
     autocomplete.addListener('place_changed', function() {

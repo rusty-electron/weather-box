@@ -186,6 +186,19 @@ footer{
     border-color: #29aaeb;
 }
 
+.search{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.search > img{
+    width: 30px;
+    height: 30px;
+    margin-left: -.5rem;
+}
+
 /* responsive styling */
 @media (max-width: 800px){
 
