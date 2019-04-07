@@ -13,7 +13,8 @@
     <header>
         <div class="top">
           <div class="title">Weather-Box</div>
-          <div class="loc">Currently Showing: <span class="lat"></span> <span class="long"></span></div>
+          <div class="loc">Currently Showing: <span class="place"></span> <span class="latlong"></span></div>
+          <input type="text" class="searchbox">
         </div>
       </header>
 
@@ -92,4 +93,7 @@
     </footer>
 </body>
 <script type="text/javascript" src="static/js/main.js"></script>
+<script type="text/javascript" src="static/js/gplaces.js"></script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWqJQh14CoP04QcyJDKGS6gWNMOanR37g&libraries=places&callback=activateSearch"></script>
 </html>

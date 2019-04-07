@@ -170,6 +170,22 @@ footer{
     color:rgb(136, 142, 148);
 }
 
+/* searchbox styling */
+
+.searchbox{
+    padding: .5rem;
+    border: 2px solid rgb(175, 171, 171);
+    border-radius: 7px;
+    margin: .8rem;
+    font-size: .9rem;
+    outline: none;
+    width: 240px;
+}
+
+.searchbox:focus{
+    border-color: #29aaeb;
+}
+
 /* responsive styling */
 @media (max-width: 800px){
 
@@ -186,5 +202,18 @@ footer{
     .current{
         display: flex;
         flex-direction: column;
+    }
+
+    .place{
+        padding-top: .5rem;
+        display: block;
+    }
+
+    .latlong{
+        display: block;
+    }
+
+    .searchbox{
+        width: 200px;
     }
 }

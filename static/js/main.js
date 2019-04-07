@@ -1,10 +1,25 @@
 let loc = ["26.1427", "91.6597"];
 
-let url = 'https://api.darksky.net/forecast/615c985b8a04b23cedb60c4832bae5d1/' + loc[0]+ ','+ loc[1];
+let ipurl = 'http://ipinfo.io/json';
+fetch('https://cors-anywhere.herokuapp.com/'+ ipurl)
+    .then(response => {
+        return response.json()
+    })
+    .then(data => {
+        console.log(data);
+        loc = data.loc.split(',');
+        
+        setLocation(loc, data.city, data.country);
+        fetchWeather();
+    })
+    .catch( err=>{
+        console.log(err);
+    })
+
 let jsonData = [];
 
-const lat = document.querySelector('.lat');
-const long = document.querySelector('.long');
+const place = document.querySelector('.place');
+const latlong = document.querySelector('.latlong');
 
 const left = document.querySelector('.left');
 const right = document.querySelector('.right');
@@ -12,49 +27,52 @@ const showHour = document.querySelector('.see-hr');
 
 let index = 0;
 
-fetch('https://cors-anywhere.herokuapp.com/'+ url)
-    .then(response => {
-        return response.json()
-    })
-    .then(data => {
-        console.log(data);
+function fetchWeather(){
+    let url = 'https://api.darksky.net/forecast/615c985b8a04b23cedb60c4832bae5d1/' + loc[0]+ ','+ loc[1];
 
-        setLocation(loc);
-        doStuff(data);
-        
-        let range = gethourRange(data.hourly.data);
-        index = range[0];
-        
-        showHour.addEventListener("click", function(){
-            
-            let box = document.querySelector('.hr-stack')
-            
-            if (box.style.display == "block"){
-                showHour.textContent = "See Hourly Information";
-                box.style.display = "none";
-            }else{
-                showHour.textContent = "Hide Hourly Information";
-                box.style.display = "block";
-            }
-
-            //Load Hourly Forecast Data
-            loadHourForecast(index, data, range);
-        });
-
-        left.addEventListener("click", function(){
-            index--;
-            loadHourForecast(index, data, range);
+    fetch('https://cors-anywhere.herokuapp.com/'+ url)
+        .then(response => {
+            return response.json()
         })
+        .then(data => {
+            console.log(data);
 
-        right.addEventListener("click", function(){
-            index++;
-            loadHourForecast(index, data, range);
+            doStuff(data);
+            
+            let range = gethourRange(data.hourly.data);
+            index = range[0];
+            
+            showHour.addEventListener("click", function(){
+                
+                let box = document.querySelector('.hr-stack')
+                
+                if (box.style.display == "block"){
+                    showHour.textContent = "See Hourly Information";
+                    box.style.display = "none";
+                }else{
+                    showHour.textContent = "Hide Hourly Information";
+                    box.style.display = "block";
+                }
+
+                //Load Hourly Forecast Data
+                loadHourForecast(index, data, range);
+            });
+
+            left.addEventListener("click", function(){
+                index--;
+                loadHourForecast(index, data, range);
+            })
+
+            right.addEventListener("click", function(){
+                index++;
+                loadHourForecast(index, data, range);
+            })
+
         })
-
-    })
-    .catch(err => {
-        console.log(err)
-});
+        .catch(err => {
+            console.log(err)
+    });
+}
 
 const mainDiv = document.querySelector('div.hr-sum-t')
 const tempSpan = document.querySelector('.temp > span')
@@ -123,9 +141,9 @@ function windConvert(data){
     return Math.round((data * 1.609));
 }
 
-function setLocation(loc){
-    lat.textContent = loc[0] +',';
-    long.textContent = loc[1];
+function setLocation(loc, city, country){
+    place.textContent = city + ", " + country;
+    latlong.textContent = " (" + parseFloat(loc[0]).toFixed(4) +', '+ parseFloat(loc[1]).toFixed(4) + ")";
 }
 
 function replaceFahrenheit(data){
