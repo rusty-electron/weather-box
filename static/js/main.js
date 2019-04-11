@@ -143,6 +143,30 @@ function changeImage(data, item){
         fileUrl = "/static/images/icons8-partly-cloudy-day-64.png";
         break;
 
+        case "snow":
+        fileUrl = "/static/images/icons8-snow-storm-96.png";
+        break;
+        
+        case "wind":
+        fileUrl = "/static/images/icons8-windy-weather-96.png";
+        break;
+
+        case "sleet":
+        fileUrl = "/static/images/icons8-sleet-96.png";
+        break;
+        
+        case "hail":
+        fileUrl = "/static/images/icons8-hail-96.png";
+        break;
+        
+        case "thunderstorm":
+        fileUrl = "/static/images/icons8-cloud-lightning-80.png";
+        break;
+
+        case "tornado":
+        fileUrl = "/static/images/icons8-tornado-80.png";
+        break;
+
         default:
         fileUrl = "/static/images/icons8-thermometer-80.png";
         break;
