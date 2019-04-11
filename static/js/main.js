@@ -31,7 +31,38 @@ const left = document.querySelector('.left');
 const right = document.querySelector('.right');
 const showHour = document.querySelector('.see-hr');
 
+let box = document.querySelector('.hr-stack');
+
+showHour.addEventListener("click", function(){
+                
+    index = range[0];
+    
+    if (box.style.display == "block"){
+        showHour.textContent = "See Hourly Information";
+        box.style.display = "none";
+    }else{
+        showHour.textContent = "Hide Hourly Information";
+        box.style.display = "block";
+    }
+
+    //Load Hourly Forecast Data
+    loadHourForecast(index, global, range);
+});
+
+left.addEventListener("click", function(){
+    index--;
+    loadHourForecast(index, global, range);
+})
+
+right.addEventListener("click", function(){
+    index++;
+    loadHourForecast(index, global, range);
+})
+
+
+
 let index = 0;
+let range, global;
 
 function fetchWeather(){
     let url = 'https://api.darksky.net/forecast/615c985b8a04b23cedb60c4832bae5d1/' + loc[0]+ ','+ loc[1];
@@ -44,36 +75,12 @@ function fetchWeather(){
             console.log(data);
 
             doStuff(data);
+            global = data;
+
+            range = gethourRange(data.hourly.data);
             
-            let range = gethourRange(data.hourly.data);
-            index = range[0];
-            
-            showHour.addEventListener("click", function(){
-                
-                let box = document.querySelector('.hr-stack')
-                
-                if (box.style.display == "block"){
-                    showHour.textContent = "See Hourly Information";
-                    box.style.display = "none";
-                }else{
-                    showHour.textContent = "Hide Hourly Information";
-                    box.style.display = "block";
-                }
-
-                //Load Hourly Forecast Data
-                loadHourForecast(index, data, range);
-            });
-
-            left.addEventListener("click", function(){
-                index--;
-                loadHourForecast(index, data, range);
-            })
-
-            right.addEventListener("click", function(){
-                index++;
-                loadHourForecast(index, data, range);
-            })
-
+            console.log(range);
+            box.style.display = "none";
         })
         .catch(err => {
             console.log(err)

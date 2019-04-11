@@ -16,6 +16,7 @@ function activateSearch(){
         country = (place.address_components[1].short_name || place.address_components[3].short_name)
 
       setLocation(loc, city, country);
+
       fetchWeather();
     });
 }
