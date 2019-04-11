@@ -211,17 +211,18 @@ function loadHourForecast(i, jsonData, range){
     hrShort.textContent = jsonData.hourly.data[i].summary;
     changeImage(jsonData.hourly.data[i].icon, wthrImg);
 
+    right.style.zIndex = 0;
+    right.style.opacity = 1;
+    left.style.zIndex = 0;
+    left.style.opacity = 1;
+    
     if (i === range[0]){
         left.style.zIndex = -1;
         left.style.opacity = 0;
-    }else if (i === range[1]){
+    }
+    if (i === range[1]){
         right.style.zIndex = -1;
         right.style.opacity = 0
-    }else{
-        right.style.zIndex = 0;
-        right.style.opacity = 1;
-        left.style.zIndex = 0;
-        left.style.opacity = 1;
     }
 }
 
